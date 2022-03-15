@@ -27,3 +27,5 @@ document.getElementById('generate').onclick = function generatePassword() {
   window.alert("Password must include at least one special character");
 
 }
+
+Yaya
