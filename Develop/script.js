@@ -20,11 +20,15 @@ generateBtn.addEventListener("click", writePassword);
 document.getElementById('generate').onclick = function generatePassword() {
 
   window.alert("These are the password requirements:");
-  window.alert("Password must be at least 14 characters long");
-  window.alert("Password must include at least one uppercase letter");
-  window.alert("Password must include at least one lowercase letter");
-  window.alert("Password must include at least one number");
-  window.alert("Password must include at least one special character");
+  var lowerCase = window.prompt(
+    "Do you want your password to have at least 1 lowercase letter? enter 'yes' if you want this or 'no' if you don't"
+    );
+
+    lowerCase = lowerCase.toLocaleLowerCase();
+    if (lowerCase === "yes") {
+      window.alert("Here is one lowercase");
+    }
+ 
 
 }
 
