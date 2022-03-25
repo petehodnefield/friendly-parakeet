@@ -19,23 +19,15 @@ var generatePassword = function() {
     var includeNumbers = window.confirm("Click OK to include numbers");
     var createdPassword = "";
     // Generate password based on criteria
-    // If user selected everything to be in their password
-    if (includeLowerCaseLetters === true && includeLowerCaseLetters === true && includeNumbers === true) {
-      // include uppercase, lowercase, and numbers in the password
-      for (var i = 0; i < userPasswordLength; i++) {
-        // pull from uppercase
-        createdPassword += upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)];
-        // pull from lowercase
-        //pull from numbers
-      }
-    }
+    // if user selected just uppercase to be in their password
     if (includeUpperCaseLetters === true && includeLowerCaseLetters === false && includeNumbers === false) {
-      // include uppercase, lowercase, and numbers in the password
+      // include uppercase in the password
       for (var i = 0; i < userPasswordLength; i++) {
         // pull from uppercase
         createdPassword += upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)];
       }
     }
+    // if user selected just lowercase to be in the password
     if (includeUpperCaseLetters === false && includeLowerCaseLetters === true && includeNumbers === false) {
       // include only lowercase in the password
       for (var i = 0; i < userPasswordLength; i++) {
@@ -43,11 +35,49 @@ var generatePassword = function() {
         createdPassword += lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)];
       }
     }
+    // if user selected just numbers to be in the password
+    if (includeUpperCaseLetters === false && includeLowerCaseLetters === false && includeNumbers === true) {
+      // include only numbers in the password
+      for (var i = 0; i < userPasswordLength; i++) {
+        // pull from umbers
+        createdPassword += numbers[Math.floor(Math.random() * numbers.length)];
+      }
+    }
+    // if user selected both lowercase and uppercase to be in the password
     if (includeUpperCaseLetters === true && includeLowerCaseLetters === true && includeNumbers === false) {
-      // include only lowercase in the password
+      // include upper and lowercase in the password
       for (var i = 0; i < userPasswordLength / 2; i++) {
-        // pull from lowercase
+        // pull from lowercase and uppercase
         createdPassword += (upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]
+        + lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]);
+      }
+    }
+   
+    // if user selected both lowercase and numbers to be in the password
+    if (includeUpperCaseLetters === false && includeLowerCaseLetters === true && includeNumbers === true) {
+      // include numbers and lowercase in the password
+      for (var i = 0; i < userPasswordLength / 2; i++) {
+        // pull from lowercase and numbers
+        createdPassword += (numbers[Math.floor(Math.random() * numbers.length)]
+        + lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]);
+      }
+    }
+    // if user selected both uppercase and numbers to be in the password
+    if (includeUpperCaseLetters === true && includeLowerCaseLetters === false && includeNumbers === true) {
+      // include numbers and lowercase in the password
+      for (var i = 0; i < userPasswordLength / 2; i++) {
+        // pull from uppercase and numbers
+        createdPassword += (numbers[Math.floor(Math.random() * numbers.length)]
+        + upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]);
+      }
+    }
+    // if user selected uppercase, lowercase and numbers to be in the password
+    if (includeUpperCaseLetters === true && includeLowerCaseLetters === true && includeNumbers === true) {
+      // include numbers and lowercase in the password
+      for (var i = 0; i < userPasswordLength / 3; i++) {
+        // pull from uppercase and numbers
+        createdPassword += (numbers[Math.floor(Math.random() * numbers.length)]
+        + upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]
         + lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]);
       }
     }
