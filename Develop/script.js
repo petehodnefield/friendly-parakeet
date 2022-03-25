@@ -91,26 +91,11 @@ var generatePassword = function() {
 
 function writePassword() {
   var password = generatePassword();
-  // console.dir(passwordText);
-  var passwordText = document.querySelector("#password");
-  
+  var passwordText = document.querySelector("#password");  
   passwordText.value = password;
-
 }
 
 // When the user clicks the generate password button, run the function
 generateBtn.addEventListener("click", writePassword);
 
 
-
-
-// var passwordCharacters = "";
-//   // Generate a random sequence of uppercase, lowercase, and numbers that matches the passwordLength variable
-//   for(var i = 0; i < passwordLength * .31; i++) {
-//     // randomly select from upperCase lowerCase, and numbers,
-//     passwordCharacters += (upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]
-//     + lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]
-//     + numbers[Math.floor(Math.random() * numbers.length)])
-//     ;
-//     console.dir(passwordCharacters);
-//   }
