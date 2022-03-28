@@ -1,100 +1,116 @@
 
 var generateBtn = document.querySelector("#generate");
+var passwordContainerEl = document.querySelector("#password");
+
 
 var passwordItems = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 var upperCaseLetters = passwordItems.slice(0,26);
 var lowerCaseLetters = passwordItems.slice(26,52);
 var numbers = passwordItems.slice(52,63);
-var total = [upperCaseLetters, lowerCaseLetters, numbers];
+var passwordLengthPrompt = 0;
+var includeNumbersConfirm = "";
+var generatedUpperCaseForPassword = "";
+var generatedLowerCaseForPassword = "";
+var generatedNumbersForPassword = ""
+var finalUpperCaseForPassword = ""
+var finalLowerCaseForPassword = ""
+var finalNumbersForPassword = ""
 
-var generatePassword = function() {
-  // prompt the user for password criteria
-  var userPasswordLength = window.prompt("How long do you want your password to be? It must be at least 8 characters long, and no more than 128");
-  userPasswordLength = parseInt(userPasswordLength);
-
-
-  if(userPasswordLength >= 8 && userPasswordLength <= 128) {
-    var includeUpperCaseLetters = window.confirm("Click OK to include uppercase letters");
-    var includeLowerCaseLetters = window.confirm("Click OK to include lowercase letters");
-    var includeNumbers = window.confirm("Click OK to include numbers");
-    var createdPassword = "";
-    // Generate password based on criteria
-    // if user selected just uppercase to be in their password
-    if (includeUpperCaseLetters === true && includeLowerCaseLetters === false && includeNumbers === false) {
-      // include uppercase in the password
-      for (var i = 0; i < userPasswordLength; i++) {
-        // pull from uppercase
-        createdPassword += upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)];
-      }
-    }
-    // if user selected just lowercase to be in the password
-    if (includeUpperCaseLetters === false && includeLowerCaseLetters === true && includeNumbers === false) {
-      // include only lowercase in the password
-      for (var i = 0; i < userPasswordLength; i++) {
-        // pull from lowercase
-        createdPassword += lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)];
-      }
-    }
-    // if user selected just numbers to be in the password
-    if (includeUpperCaseLetters === false && includeLowerCaseLetters === false && includeNumbers === true) {
-      // include only numbers in the password
-      for (var i = 0; i < userPasswordLength; i++) {
-        // pull from umbers
-        createdPassword += numbers[Math.floor(Math.random() * numbers.length)];
-      }
-    }
-    // if user selected both lowercase and uppercase to be in the password
-    if (includeUpperCaseLetters === true && includeLowerCaseLetters === true && includeNumbers === false) {
-      // include upper and lowercase in the password
-      for (var i = 0; i < userPasswordLength / 2; i++) {
-        // pull from lowercase and uppercase
-        createdPassword += (upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]
-        + lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]);
-      }
-    }
-   
-    // if user selected both lowercase and numbers to be in the password
-    if (includeUpperCaseLetters === false && includeLowerCaseLetters === true && includeNumbers === true) {
-      // include numbers and lowercase in the password
-      for (var i = 0; i < userPasswordLength / 2; i++) {
-        // pull from lowercase and numbers
-        createdPassword += (numbers[Math.floor(Math.random() * numbers.length)]
-        + lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]);
-      }
-    }
-    // if user selected both uppercase and numbers to be in the password
-    if (includeUpperCaseLetters === true && includeLowerCaseLetters === false && includeNumbers === true) {
-      // include numbers and lowercase in the password
-      for (var i = 0; i < userPasswordLength / 2; i++) {
-        // pull from uppercase and numbers
-        createdPassword += (numbers[Math.floor(Math.random() * numbers.length)]
-        + upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]);
-      }
-    }
-    // if user selected uppercase, lowercase and numbers to be in the password
-    if (includeUpperCaseLetters === true && includeLowerCaseLetters === true && includeNumbers === true) {
-      // include numbers and lowercase in the password
-      for (var i = 0; i < userPasswordLength / 3; i++) {
-        // pull from uppercase and numbers
-        createdPassword += (numbers[Math.floor(Math.random() * numbers.length)]
-        + upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]
-        + lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]);
-      }
-    }
-    return createdPassword;
+var selectedPasswordLength = function() {
+  passwordLengthPrompt = window.prompt("How many characters do you want your password to be? It must be at least 8 characters, and no longer than 128 characters.");
+  if(passwordLengthPrompt === "" || passwordLengthPrompt === null || passwordLengthPrompt === false) {
+    alert("You must select a valid option!")
   }
-  else {
-    window.alert("Please enter a value between 8 and 128!");
-    generatePassword();
+  else if(passwordLengthPrompt < 8 || passwordLengthPrompt > 128) {
+    alert("Your password is not the correct length!");
+    selectedPasswordLength();
+  }
+  else if(passwordLengthPrompt >= 8 && passwordLengthPrompt <= 128) {
+    // console.log(passwordLengthPrompt);
+    return passwordLengthPrompt;
   }
 }
 
-function writePassword() {
-  var password = generatePassword();
-  // console.dir(passwordText);
-  var passwordText = document.querySelector("#password");
+// Prompt to include upperCase
+var includeUpperCase = function() {
+  var includeUpperCaseConfirm = window.confirm("Do you want uppercase letters? OK = include uppercase, Cancel = don't include uppercase");
   
-  passwordText.value = password;
+  if(includeUpperCaseConfirm) {
+    for(var i = 0; i < passwordLengthPrompt; i++) {
+      generatedUpperCaseForPassword += upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]
+    }
+    finalUpperCaseForPassword += generatedUpperCaseForPassword;
+    console.log(finalUpperCaseForPassword);
+    // Include uppercase array in the password
+    // Reassign includeUpperCaseConfirm to = upperCaseLetters array
+    includeUpperCaseConfirm = upperCaseLetters;
+  }
+  else {
+    return;
+  }
+}
+// Prompt to include lowerCase
+var includeLowerCase = function() {
+  var includeLowerCaseConfirm = window.confirm("Do you want lowercase letters? OK = include lowercase, Cancel = don't include lowercase");
+  
+  if(includeLowerCaseConfirm) {
+    for(var i = 0; i < passwordLengthPrompt; i++) {
+      generatedLowerCaseForPassword += lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]
+    }
+
+    finalLowerCaseForPassword += generatedLowerCaseForPassword;
+    console.log(finalLowerCaseForPassword);
+    // Include lowercase array in the password
+    // Reassign includeLowerCaseConfirm to = lowerCaseLetters array
+    // includeLowerCaseConfirm = lowerCaseLetters;
+  }
+  else {
+    return;
+  }
+}
+// Prompt to include lowerCase
+var includeNumbers = function() {
+  includeNumbersConfirm = window.confirm("Do you want numbers? OK = include numbers, Cancel = don't include numbers");
+  if(includeNumbersConfirm) {
+    // Include lowercase array in the password
+    // Reassign includeLowerCaseConfirm to = lowerCaseLetters array
+    for(var i = 0; i < passwordLengthPrompt; i++) {
+      generatedNumbersForPassword += numbers[Math.floor(Math.random() * numbers.length)]
+      // console.log(generatedNumbersForPassword);
+    }
+    // store the generated numbers in the finalNumbersForPassword variable
+    finalNumbersForPassword += generatedNumbersForPassword;
+    console.log(finalNumbersForPassword);
+    // includeNumbersConfirm = numbers;
+  }
+  else {
+    return;
+  }
+}
+
+
+var generatePassword = function(wantNumbers, Yaya1, Yaya2) {
+  // randomly select 3 numbers from the generatedNumbersForPassword variable
+  if(wantNumbers) {
+    alert("Have a good one man")
+  }
+}
+
+// master function
+function writePassword() {
+  // Get user's desired pw length
+  selectedPasswordLength();
+  // Ask if they want upperCase
+  includeUpperCase();
+  // Ask if they want lowerCase
+  includeLowerCase();
+  // Ask if they want numbers
+  includeNumbers();
+  // Combine user response into a password
+  generatePassword(includeNumbersConfirm);
+  // Display generated password to passwordContainer element
+    
+  passwordContainerEl.value = generatedNumbersForPassword;
 
 }
 
@@ -103,14 +119,3 @@ generateBtn.addEventListener("click", writePassword);
 
 
 
-
-// var passwordCharacters = "";
-//   // Generate a random sequence of uppercase, lowercase, and numbers that matches the passwordLength variable
-//   for(var i = 0; i < passwordLength * .31; i++) {
-//     // randomly select from upperCase lowerCase, and numbers,
-//     passwordCharacters += (upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]
-//     + lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]
-//     + numbers[Math.floor(Math.random() * numbers.length)])
-//     ;
-//     console.dir(passwordCharacters);
-//   }
