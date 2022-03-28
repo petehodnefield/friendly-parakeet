@@ -15,6 +15,8 @@ var generatedNumbersForPassword = ""
 var finalUpperCaseForPassword = ""
 var finalLowerCaseForPassword = ""
 var finalNumbersForPassword = ""
+var confirmedSelected = [];
+var finalGuy = ""
 
 var selectedPasswordLength = function() {
   passwordLengthPrompt = window.prompt("How many characters do you want your password to be? It must be at least 8 characters, and no longer than 128 characters.");
@@ -30,47 +32,34 @@ var selectedPasswordLength = function() {
     return passwordLengthPrompt;
   }
 }
-
 // Prompt to include upperCase
-var includeUpperCase = function() {
+var includeTheseInPassword = function(prompt1, prompt2, prompt3) {
   var includeUpperCaseConfirm = window.confirm("Do you want uppercase letters? OK = include uppercase, Cancel = don't include uppercase");
+  var includeLowerCaseConfirm = window.confirm("Do you want lowercase letters? OK = include lowercase, Cancel = don't include lowercase");
+  includeNumbersConfirm = window.confirm("Do you want numbers? OK = include numbers, Cancel = don't include numbers");
+
   
   if(includeUpperCaseConfirm) {
     for(var i = 0; i < passwordLengthPrompt; i++) {
       generatedUpperCaseForPassword += upperCaseLetters[Math.floor(Math.random() * upperCaseLetters.length)]
     }
     finalUpperCaseForPassword += generatedUpperCaseForPassword;
-    console.log(finalUpperCaseForPassword);
+    confirmedSelected.push(finalUpperCaseForPassword);
+
     // Include uppercase array in the password
     // Reassign includeUpperCaseConfirm to = upperCaseLetters array
-    includeUpperCaseConfirm = upperCaseLetters;
   }
-  else {
-    return;
-  }
-}
-// Prompt to include lowerCase
-var includeLowerCase = function() {
-  var includeLowerCaseConfirm = window.confirm("Do you want lowercase letters? OK = include lowercase, Cancel = don't include lowercase");
-  
   if(includeLowerCaseConfirm) {
-    for(var i = 0; i < passwordLengthPrompt; i++) {
-      generatedLowerCaseForPassword += lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]
-    }
-
-    finalLowerCaseForPassword += generatedLowerCaseForPassword;
-    console.log(finalLowerCaseForPassword);
-    // Include lowercase array in the password
-    // Reassign includeLowerCaseConfirm to = lowerCaseLetters array
-    // includeLowerCaseConfirm = lowerCaseLetters;
-  }
-  else {
-    return;
-  }
-}
-// Prompt to include lowerCase
-var includeNumbers = function() {
-  includeNumbersConfirm = window.confirm("Do you want numbers? OK = include numbers, Cancel = don't include numbers");
+        for(var i = 0; i < passwordLengthPrompt; i++) {
+          generatedLowerCaseForPassword += lowerCaseLetters[Math.floor(Math.random() * lowerCaseLetters.length)]
+        }
+    
+        finalLowerCaseForPassword += generatedLowerCaseForPassword;
+        confirmedSelected.push(finalLowerCaseForPassword);
+        // Include lowercase array in the password
+        // Reassign includeLowerCaseConfirm to = lowerCaseLetters array
+        // includeLowerCaseConfirm = lowerCaseLetters;
+      }
   if(includeNumbersConfirm) {
     // Include lowercase array in the password
     // Reassign includeLowerCaseConfirm to = lowerCaseLetters array
@@ -80,37 +69,42 @@ var includeNumbers = function() {
     }
     // store the generated numbers in the finalNumbersForPassword variable
     finalNumbersForPassword += generatedNumbersForPassword;
-    console.log(finalNumbersForPassword);
+    confirmedSelected.push(finalNumbersForPassword);
     // includeNumbersConfirm = numbers;
   }
+  if(!includeUpperCaseConfirm && !includeLowerCaseConfirm && !includeNumbersConfirm) {
+    alert("You must select at least one of these options!");
+    includeTheseInPassword();
+  }
+  
   else {
     return;
   }
 }
 
 
-var generatePassword = function(wantNumbers, Yaya1, Yaya2) {
-  // randomly select 3 numbers from the generatedNumbersForPassword variable
-  if(wantNumbers) {
-    alert("Have a good one man")
+
+
+var generatePassword = function() {
+  var combinedArray = confirmedSelected.join("")  
+  console.log(combinedArray)
+
+  for(i = 0; i < passwordLengthPrompt; i++) {
+  finalGuy += combinedArray[Math.floor(Math.random() * combinedArray.length)];
   }
+  console.log(finalGuy)
 }
 
 // master function
 function writePassword() {
-  // Get user's desired pw length
+  // User selects how many characters long pw is
   selectedPasswordLength();
-  // Ask if they want upperCase
-  includeUpperCase();
-  // Ask if they want lowerCase
-  includeLowerCase();
-  // Ask if they want numbers
-  includeNumbers();
-  // Combine user response into a password
-  generatePassword(includeNumbersConfirm);
-  // Display generated password to passwordContainer element
-    
-  passwordContainerEl.value = generatedNumbersForPassword;
+  // User selects which conditions password has
+  includeTheseInPassword();
+  // Assemble pw based off of the conditions
+  generatePassword();    
+  // Display pw in the passwordContainer
+  passwordContainerEl.value = finalGuy;
 
 }
 
